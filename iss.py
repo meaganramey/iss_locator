@@ -18,9 +18,19 @@ def astronauts():
     print(f'There are a total of {len(astronaut_list)} in space.')
 
 
+def iss_location():
+    r = requests.get('http://api.open-notify.org/iss-now.json')
+    r = r.json()
+    coords = r['iss_position']
+    time = r['timestamp']
+    return time, coords
+
 
 def main():
     astronauts_on_ISS = astronauts()
+    time, coords = iss_location()
+    print(time)
+    print(coords)
 
 
 if __name__ == '__main__':
