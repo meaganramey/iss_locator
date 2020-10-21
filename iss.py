@@ -44,14 +44,36 @@ def over_indy():
     date = r['response'][0]['risetime']
     seconds = r['response'][0]['duration']
     overhead_date = time.ctime(date)
-    indy_data = [overhead_date, seconds]
-    return indy_data
+    indy_date = [overhead_date, seconds]
+    return indy_date
 
 
 def iss_display(time, coords, indy):
+    '''Using turtle, displays the world map with an ISS icon. Moves the ISS
+        icon to the current ISS coordinates, and adds a yellow dot and next
+        passover time to Indianapolis, IN.'''
     disp = turtle.Screen()
-    disp.setup(width=500, height=500)
+    disp.setup(width=720, height=360)
     disp.bgpic('map.gif')
+    disp.setworldcoordinates(-180, -90, 180, 90)
+    disp.register_shape('iss.gif')
+    iss = turtle.Turtle()
+    iss.penup()
+    iss.goto(float(coords['longitude']), float(coords['latitude']))
+    iss.shape('iss.gif')
+    indianapolis = turtle.Turtle()
+    indianapolis.penup()
+    indianapolis.goto(-88.158068, 39.768403)
+    indianapolis.shape('circle')
+    indianapolis.color('yellow')
+    indianapolis.turtlesize(0.2)
+    overhead = turtle.Turtle()
+    overhead.penup()
+    overhead.color('white')
+    overhead.goto(-80.158068, 39.768403)
+    overhead.write(f"""
+    ISS will pass over Indianapolis on: {indy[0]} for a duration of
+    {indy[1]} seconds""")
     turtle.done()
 
 
